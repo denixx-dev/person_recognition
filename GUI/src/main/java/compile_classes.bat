@@ -1,0 +1,1 @@
+javac -cp org/kazino/Jars/*.jar org/kazino/Source_Java/*.java

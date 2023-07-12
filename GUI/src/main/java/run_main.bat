@@ -1,1 +1,0 @@
-..\..\..\..\.person_recognition\Scripts\activate.bat
