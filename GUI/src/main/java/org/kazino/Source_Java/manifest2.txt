@@ -1,0 +1,2 @@
+Main-Class: org/kazino/Source_Java/Main
+Class-Path: py4j-0.10.9.7.jar

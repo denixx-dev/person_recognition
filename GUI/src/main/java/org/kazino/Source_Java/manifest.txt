@@ -1,0 +1,1 @@
+Main-Class: org/kazino/Source_Java/Main
