@@ -1,1 +1,0 @@
-java -jar ../java/org/kazino/Source_Java/MyJar.jar
