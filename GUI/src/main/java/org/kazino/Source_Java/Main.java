@@ -22,10 +22,11 @@ public class Main {
     static JLabel testLabel = new JLabel();
     static JLabel countLabel = new JLabel();
     static int counter =0;
+    static int i =0;
     static Timer timer;
     static boolean fileChosenFLag = false;
     static File videoFile;
-    public void setFileChosenFLag(boolean flag){
+    public static void setFileChosenFLag(boolean flag){
         fileChosenFLag = flag;
     }
     public boolean getFileChosenFlag(){
@@ -35,7 +36,12 @@ public class Main {
     public String getFileAbsolutePath() throws IOException {
         return videoFile.getCanonicalPath();
     }
-    public void drawInterface(){
+
+    public static void setCounterLabelText(String text){
+        countLabel.setText(text);
+    }
+
+    public static void drawInterface(){
         jFrame.setVisible(true);
         jFrame.setResizable(false);
         jFrame.add(jPanel);
@@ -53,6 +59,11 @@ public class Main {
 
         FrameFunctions.setWelcomeJLabel(welcomeLabel);
         jPanel.add(welcomeLabel);
+
+        FrameFunctions.setCounterLabel(countLabel);
+        jPanel.add(countLabel);
+        countLabel.setText("test");
+
 
         jButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -74,14 +85,22 @@ public class Main {
                         ioException.printStackTrace();
                     }
                 }
+//                i++;
+//                countLabel.setText("test " + Integer.toString(i));
+
             }
         });
     }
 
     public static void main(String[] args) throws Exception {
+        // prod
         GatewayServer gatewayServer = new GatewayServer(new Main());
         gatewayServer.start();
         System.out.println("Gateway started");
+
+        // test
+//        drawInterface();
+
     }
 
 

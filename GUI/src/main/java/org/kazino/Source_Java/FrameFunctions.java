@@ -39,6 +39,11 @@ public class FrameFunctions {
         jLabel.setSize(300, 300);
         jLabel.setLocation(130, -100);
     }
+    static void setCounterLabel(JLabel label){
+        label.setSize(300,300);
+        label.setLocation(130,-50);
+    }
+
     static void setJLabel(JLabel jLabel, String name, int[] size, int[] loc){
         jLabel.setText(name);
         jLabel.setSize(size[0], size[1]);

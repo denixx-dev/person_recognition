@@ -48,7 +48,7 @@ async def async_detect():
             
             # Make detections 
             results = model(frame)
-            asyncio.create_task(count_people(results))
+            asyncio.create_task(count_people(results, gateway))
 
             cv2.imshow('YOLO', np.squeeze(results.render()))
             
@@ -62,8 +62,7 @@ async def async_detect():
         cap.release()
         cv2.destroyAllWindows()
 
-async def count_people(results):
-    res = 0
+async def count_people(results, gateway):
     results = results.pandas().xyxy[0]
 
     class_counts = {label: 0 for label in coco_classes.keys()}
@@ -72,6 +71,7 @@ async def count_people(results):
         recognizing = result['class']
         class_counts[recognizing] += 1
     print(f'Persons on a frame: {class_counts[0]}')
+    gateway.setCounterLabelText(f"Persons on a frame: {class_counts[0]}")
 
 
 
