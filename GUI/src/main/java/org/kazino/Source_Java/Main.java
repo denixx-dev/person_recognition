@@ -8,9 +8,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-
 
 public class Main {
     static JFrame jFrame = FrameFunctions.getFrame();
@@ -20,26 +21,39 @@ public class Main {
     static JLabel welcomeLabel = new JLabel();
     static JButton testButton = new JButton();
     static JLabel testLabel = new JLabel();
-    static JLabel countLabel = new JLabel();
+    public static JLabel countLabel = new JLabel();
     static int counter =0;
     static int i =0;
     static Timer timer;
     static boolean fileChosenFLag = false;
     static File videoFile;
+    static boolean isWindowClosed = false;
+
+    //
+    // Scope with functions called from python side
+    //
     public static void setFileChosenFLag(boolean flag){
         fileChosenFLag = flag;
     }
-    public boolean getFileChosenFlag(){
+    public static boolean getFileChosenFlag(){
         return fileChosenFLag;
-    } // Используется в питоне
-
+    }
+    public static void setFileChosenFlag(boolean flag){ fileChosenFLag = flag; }
     public String getFileAbsolutePath() throws IOException {
         return videoFile.getCanonicalPath();
     }
-
     public static void setCounterLabelText(String text){
         countLabel.setText(text);
     }
+    public static boolean getWindowClosedFlag (){
+        return isWindowClosed;
+    }
+    public static void setjButtonEnabled(){
+        jButton.setEnabled(true);
+    }
+    //
+    //
+    //
 
     public static void drawInterface(){
         jFrame.setVisible(true);
@@ -64,7 +78,6 @@ public class Main {
         jPanel.add(countLabel);
         countLabel.setText("test");
 
-
         jButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 JFileChooser fileChooser = new JFileChooser();
@@ -85,11 +98,17 @@ public class Main {
                         ioException.printStackTrace();
                     }
                 }
-//                i++;
-//                countLabel.setText("test " + Integer.toString(i));
+            }
+        }
+        );
 
+        jFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                isWindowClosed = true;
             }
         });
+
     }
 
     public static void main(String[] args) throws Exception {

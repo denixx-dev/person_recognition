@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
+import static org.kazino.Source_Java.Main.*;
+
 public class FrameFunctions {
     static JFrame getFrame() {
         JFrame jframe = new JFrame();
@@ -33,6 +35,7 @@ public class FrameFunctions {
         jButton.setText(name);
         jButton.setSize(size[0], size[1]);
         jButton.setLocation(loc[0], loc[1]);
+        jButton.setEnabled(false);
     }
     static void setWelcomeJLabel(JLabel jLabel){
         jLabel.setText("Welcome to the Person Recognition");
@@ -43,7 +46,6 @@ public class FrameFunctions {
         label.setSize(300,300);
         label.setLocation(130,-50);
     }
-
     static void setJLabel(JLabel jLabel, String name, int[] size, int[] loc){
         jLabel.setText(name);
         jLabel.setSize(size[0], size[1]);

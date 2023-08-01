@@ -14,53 +14,47 @@ from py4j.java_gateway import JavaGateway
 person_counter = 0
 
 def start_gateway():
-    # path = pathlib.Path(__file__).parent.resolve()
-    # parent = pathlib.PureWindowsPath(path)
-    # parent = str(parent.parents[0]).replace("\\", "/")
-    # print(parent)
-    # os.chdir("GUI/src/main/java")
-    # os.system(f"/run_main.bat")
-
     javaGateway = JavaGateway()
     gui = javaGateway.entry_point
     gui.drawInterface() 
     return javaGateway
 
-async def async_detect():
+async def async_detect(gateway):
     
     print("Function started")
     model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
-    
-    
-    gateway = start_gateway()
 
-    print("Waiting for a file being chosen...")
-    while not gateway.getFileChosenFlag():
-        pass
-    print("Excellent! The file was chosen")
-    
-    video_file = gateway.getFileAbsolutePath()
-    cap = cv2.VideoCapture(video_file)
-    
-    try:
-        while cap.isOpened():
-            ret, frame = cap.read()
-            
-            # Make detections 
-            results = model(frame)
-            asyncio.create_task(count_people(results, gateway))
+    gateway.setjButtonEnabled()
 
-            cv2.imshow('YOLO', np.squeeze(results.render()))
-            
-            if cv2.waitKey(10) & 0xFF == ord('q'):
-                break
+    while (gateway.getWindowClosedFlag != True):
+        print("Waiting for a file being chosen...")
+        while not gateway.getFileChosenFlag():
+            pass
+        print("Excellent! The file was chosen")
+        
+        video_file = gateway.getFileAbsolutePath()
+        cap = cv2.VideoCapture(video_file)
+        
+        try:
+            while cap.isOpened():
+                ret, frame = cap.read()
+                
+                # Make detections 
+                results = model(frame)
+                asyncio.create_task(count_people(results, gateway))
 
-            await asyncio.sleep(0)
-        cap.release()
-        cv2.destroyAllWindows()
-    except:
-        cap.release()
-        cv2.destroyAllWindows()
+                cv2.imshow('YOLO', np.squeeze(results.render()))
+                
+                if cv2.waitKey(10) & 0xFF == ord('q'):
+                    break
+
+                await asyncio.sleep(0)
+            cap.release()
+            cv2.destroyAllWindows()
+        except:
+            cap.release()
+            cv2.destroyAllWindows()
+        gateway.setFileChosenFlag(False)
 
 async def count_people(results, gateway):
     results = results.pandas().xyxy[0]
@@ -76,7 +70,11 @@ async def count_people(results, gateway):
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(asyncio.gather(async_detect()))
+    try:
+        gateway = start_gateway()
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(asyncio.gather(async_detect(gateway)))
+    except:
+        print("Gateway closed connection")
 
     
