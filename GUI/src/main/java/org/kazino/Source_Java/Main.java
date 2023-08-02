@@ -22,6 +22,8 @@ public class Main {
     static JButton testButton = new JButton();
     static JLabel testLabel = new JLabel();
     public static JLabel countLabel = new JLabel();
+    public static JLabel notReadyLabel = new JLabel("YOLO is preparing to work. Please wait.");
+    public static JCheckBox checkToShowDetections = new JCheckBox("Show detections");
     static int counter =0;
     static int i =0;
     static Timer timer;
@@ -51,6 +53,12 @@ public class Main {
     public static void setjButtonEnabled(){
         jButton.setEnabled(true);
     }
+    public static boolean getCheckBoxState(){
+        return checkToShowDetections.isSelected();
+    }
+    public static void disableNotReadyLabel(){
+        notReadyLabel.setVisible(false);
+    }
     //
     //
     //
@@ -76,7 +84,13 @@ public class Main {
 
         FrameFunctions.setCounterLabel(countLabel);
         jPanel.add(countLabel);
-        countLabel.setText("test");
+//        countLabel.setText("test");
+
+        FrameFunctions.setJCheckBox();
+        jPanel.add(checkToShowDetections);
+
+        FrameFunctions.setNotReadyLabel();
+        jPanel.add(notReadyLabel);
 
         jButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){

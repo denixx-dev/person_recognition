@@ -25,6 +25,7 @@ async def async_detect(gateway):
     model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
     gateway.setjButtonEnabled()
+    gateway.disableNotReadyLabel()
 
     while (gateway.getWindowClosedFlag != True):
         print("Waiting for a file being chosen...")
@@ -43,7 +44,10 @@ async def async_detect(gateway):
                 results = model(frame)
                 asyncio.create_task(count_people(results, gateway))
 
-                cv2.imshow('YOLO', np.squeeze(results.render()))
+                if gateway.getCheckBoxState():
+                    cv2.imshow('YOLO', np.squeeze(results.render()))
+                else:
+                    cv2.imshow('YOLO', np.squeeze(frame))
                 
                 if cv2.waitKey(10) & 0xFF == ord('q'):
                     break
@@ -66,7 +70,6 @@ async def count_people(results, gateway):
         class_counts[recognizing] += 1
     print(f'Persons on a frame: {class_counts[0]}')
     gateway.setCounterLabelText(f"Persons on a frame: {class_counts[0]}")
-
 
 
 if __name__ == "__main__":

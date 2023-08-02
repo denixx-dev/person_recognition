@@ -51,4 +51,15 @@ public class FrameFunctions {
         jLabel.setSize(size[0], size[1]);
         jLabel.setLocation(loc[0], loc[1]);
     }
+    static void setJCheckBox(){
+        checkToShowDetections.setSize(150,20);
+        checkToShowDetections.setLocation(175, 160);
+//        checkToShowDetections.setHorizontalAlignment(checkToShowDetections.CENTER);
+    }
+    static void setNotReadyLabel(){
+        notReadyLabel.setSize(300,300);
+        notReadyLabel.setLocation(130, 85);
+        notReadyLabel.setForeground(Color.RED);
+
+    }
 }
