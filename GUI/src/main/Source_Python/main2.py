@@ -22,7 +22,7 @@ def start_gateway():
 async def async_detect(gateway):
     
     print("Function started")
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+    model = torch.hub.load('ultralytics/yolov5', 'yolov5n')
 
     gateway.setjButtonEnabled()
     gateway.disableNotReadyLabel()
