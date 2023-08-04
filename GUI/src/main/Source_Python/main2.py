@@ -16,7 +16,7 @@ person_counter = 0
 def start_gateway():
     javaGateway = JavaGateway()
     gui = javaGateway.entry_point
-    gui.drawInterface() 
+    gui.drawInterface()
     return javaGateway
 
 async def async_detect(gateway):
