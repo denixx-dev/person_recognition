@@ -1,3 +1,4 @@
 .person_recognition
 __pycache__
 .idea
+yolov5n.pt
